@@ -11,4 +11,4 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ## Steps taken to set the project up
 
-Get supabase installed, per https://supabase.io/docs/guides/examples
+Get supabase installed, per https://supabase.io/docs/guides/examples. It uses https://github.com/DidoMarchet/vue-3-supabase, which I installed, added the .env file with the keys, added that to the .gitignore file, and added the code snippets to init supabase into the app changing the hard coded values in the example in the vue-3-supabase docs to the `import.meta.env.VITE_<thing>` as needed.
