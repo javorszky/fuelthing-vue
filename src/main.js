@@ -10,7 +10,11 @@ const app = createApp(App)
 app.use(supabase, {
     supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
     supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-    options: {}
+    options: {
+        data() {
+            href: 'https://v3.vuejs.org/'
+        }
+    }
 })
 
 app.mount('#app')
