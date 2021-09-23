@@ -6,6 +6,12 @@ import Main from "./components/Main.vue";
 const listen = (email) => {
   console.log("email is", email);
 };
+
+setSession(supabase.auth.session());
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  setSession(session);
+});
 </script>
 
 <template>
