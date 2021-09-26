@@ -1,32 +1,29 @@
 <script setup>
 import { ref } from "vue";
-const emit = defineEmits(["login"]);
-const email = ref("");
+import { supabase } from "../supabase";
 
-const handleLogin = async (email) => {
+const emit = defineEmits(["login"]);
+
+const loading = ref(false);
+const email = ref("");
+const note = ref("");
+
+const handleLogin = async () => {
   try {
-    setLoading(true);
-    const { error } = await supabase.auth.signIn({ email });
-    if (error) {
-      throw error;
-    }
-    setAuthNotification({
-      type: "is-success",
-      message: "check your email inbox for a magic link!",
-    });
+    loading.value = true;
+    const { error } = await supabase.auth.signIn({ email: email.value });
+    if (error) throw error;
+    note.value = "check your email for a login link";
   } catch (error) {
-    setAuthNotification({
-      type: "is-danger",
-      message: error.error_description || error.message,
-    });
+    note.value = error.error_description || error.message;
   } finally {
-    setLoading(false);
+    loading.value = false;
   }
 };
 </script>
 
 <template>
-  <form @submit.prevent="$emit('login', email)">
+  <form @submit.prevent="handleLogin(email)">
     <h2>Log in to fuel thing</h2>
     <label for="email">
       Email address
@@ -34,6 +31,7 @@ const handleLogin = async (email) => {
     </label>
     <button>Send the magic link!</button>
   </form>
+  <p v-if="note">{{ note }}</p>
 </template>
 
 <style scoped>

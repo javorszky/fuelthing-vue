@@ -1,22 +1,22 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import Main from "./components/Main.vue";
+import Auth from "./components/Auth.vue";
+import Account from "./components/Account.vue";
 
-const listen = (email) => {
-  console.log("email is", email);
-};
+import { supabase } from "./supabase";
+import { store } from "./store";
 
-setSession(supabase.auth.session());
-
-supabase.auth.onAuthStateChange((_event, session) => {
-  setSession(session);
+store.user = supabase.auth.user();
+supabase.auth.onAuthStateChange((_, session) => {
+  store.user = session.user;
 });
 </script>
 
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <Main @login="listen" />
+  <Account v-if="store.user" />
+  <Auth v-else @login="listen" />
 </template>
 
 <style>
