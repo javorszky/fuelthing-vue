@@ -42,6 +42,8 @@ const deleteVehicle = async (vehicleID) => {
       .from("vehicles")
       .delete({ returning: "minimal" })
       .match({ id: vehicleID });
+
+    delete store.vehicles[vehicleID];
   } catch (error) {
     console.error("there was an error with deleting a vehicle", error);
   }
@@ -61,7 +63,10 @@ onMounted(() => fetchVehicles());
     <tbody>
       <tr v-for="vehicle in store.vehicles" :key="vehicle.id">
         <td>{{ vehicle.name }}</td>
-        <td><button>select</button><button>delete</button></td>
+        <td>
+          <button @click="setActive(vehicle.id)">select</button>
+          <button @click="deleteVehicle(vehicle.id)">delete</button>
+        </td>
       </tr>
       <tr v-if="Object.keys(store.vehicles).length == 0">
         No vehicles yet
