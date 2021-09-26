@@ -3,11 +3,13 @@
 import { supabase } from "../supabase";
 import { store } from "../store";
 import { onMounted, ref } from "vue";
+import Vehicles from "./Vehicles.vue";
 
 const loading = ref(true);
 const username = ref("");
 const website = ref("");
 const avatar_url = ref("");
+const activeVehicle = ref("");
 
 async function getProfile() {
   try {
@@ -23,7 +25,6 @@ async function getProfile() {
     if (error && status !== 406) throw error;
 
     if (data) {
-      console.log("got data, and it is glorious", data);
       username.value = data.username;
       website.value = data.website;
       avatar_url.value = data.avatar_url;
@@ -105,4 +106,6 @@ onMounted(getProfile);
       </button>
     </div>
   </form>
+
+  <Vehicles />
 </template>
