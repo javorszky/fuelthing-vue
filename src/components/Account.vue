@@ -5,11 +5,13 @@ import { store } from "../store";
 import { onMounted, ref } from "vue";
 import Vehicles from "./Vehicles.vue";
 import ManageVehicle from "./ManageVehicle.vue";
+import Notification from "./Notification.vue";
 
 const loading = ref(true);
 const username = ref("");
 const website = ref("");
 const avatar_url = ref("");
+const ruhRoh = ref("");
 
 async function getProfile() {
   try {
@@ -68,7 +70,7 @@ async function signOut() {
     let { error } = await supabase.auth.signOut();
     if (error) throw error;
   } catch (error) {
-    alert(error.message);
+    ruhRoh.value = error.message;
   } finally {
     loading.value = false;
   }
@@ -78,6 +80,7 @@ onMounted(getProfile);
 </script>
 <template>
   <div class="container">
+    <Notification v-if="ruhRoh" :message="ruhRoh" type="is-danger" />
     <form class="form-widget box" @submit.prevent="updateProfile">
       <div class="field">
         <label for="email">Email</label>

@@ -14,6 +14,8 @@ supabase.auth.onAuthStateChange((_, session) => {
 </script>
 
 <template>
-  <Account v-if="store.user" />
-  <Auth v-else />
+  <section class="section">
+    <Account v-if="store.user" />
+    <Auth v-else />
+  </section>
 </template>
