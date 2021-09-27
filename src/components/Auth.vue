@@ -52,12 +52,18 @@ const handleLogin = async () => {
     <form class="box" @submit.prevent="handleLogin(email)">
       <div class="field">
         <label class="label" for="email">
-          Email address
-          <input class="input" type="email" id="email" v-model="email" />
+          Email
+          <input
+            class="input"
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="e.g. bob@accounting.com"
+          />
         </label>
       </div>
       <p class="control">
-        <button class="button is-primary">Send the magic link!</button>
+        <button class="button is-primary">Send magic link</button>
       </p>
     </form>
     <Notification v-if="note" :message="note" :type="noteType" />
