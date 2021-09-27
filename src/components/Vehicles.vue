@@ -26,7 +26,7 @@ const fetchVehicles = async () => {
 
 const addVehicle = async (newVehicle) => {
   try {
-    const { data, error, status } = await supabase
+    let { data, error, status } = await supabase
       .from("vehicles")
       .insert([{ name: newVehicle, user_id: store.user.id }]);
 
@@ -38,7 +38,7 @@ const addVehicle = async (newVehicle) => {
 
 const deleteVehicle = async (vehicleID) => {
   try {
-    const { data, error, status } = await supabase
+    let { data, error, status } = await supabase
       .from("vehicles")
       .delete({ returning: "minimal" })
       .match({ id: vehicleID });
@@ -64,7 +64,7 @@ onMounted(() => fetchVehicles());
       <tr v-for="vehicle in store.vehicles" :key="vehicle.id">
         <td>{{ vehicle.name }}</td>
         <td>
-          <button @click="setActive(vehicle.id)">select</button>
+          <button @click="store.activeVehicle = vehicle.id">select</button>
           <button @click="deleteVehicle(vehicle.id)">delete</button>
         </td>
       </tr>

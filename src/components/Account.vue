@@ -4,12 +4,12 @@ import { supabase } from "../supabase";
 import { store } from "../store";
 import { onMounted, ref } from "vue";
 import Vehicles from "./Vehicles.vue";
+import ManageVehicle from "./ManageVehicle.vue";
 
 const loading = ref(true);
 const username = ref("");
 const website = ref("");
 const avatar_url = ref("");
-const activeVehicle = ref("");
 
 async function getProfile() {
   try {
@@ -107,5 +107,9 @@ onMounted(getProfile);
     </div>
   </form>
 
-  <Vehicles />
+  <ManageVehicle
+    v-if="store.activeVehicle"
+    :vehicle="store.vehicles[store.activeVehicle]"
+  />
+  <Vehicles v-else />
 </template>
