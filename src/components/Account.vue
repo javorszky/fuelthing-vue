@@ -80,7 +80,7 @@ onMounted(getProfile);
 </script>
 <template>
   <div class="container">
-    <Notification v-if="ruhRoh" :message="ruhRoh" type="is-danger" />
+    <Notification :message="ruhRoh" type="is-danger" />
     <form class="form-widget box" @submit.prevent="updateProfile">
       <div class="field">
         <label for="email">Email</label>

@@ -81,10 +81,6 @@ const addFuel = async () => {
   }
 };
 
-const hide = () => {
-  ruhRoh.value = "";
-};
-
 onMounted(() => {
   fetchData();
 });
@@ -92,7 +88,7 @@ onMounted(() => {
 
 <template>
   <h1 class="title">Fuel list for {{ props.vehicle.name }} <a href="#" class="button is-link" @click="store.activeVehicle= ''">Go back</a></h1>
-  <Notification @hide-yo-self="hide" v-if="ruhRoh" :message="ruhRoh" type="is-danger"/>
+  <Notification :message="ruhRoh" type="is-danger"/>
   <tbody class="table is-hoverable is-striped is-narrow is-fullwidth">
     <thead>
       <th>date</th>
