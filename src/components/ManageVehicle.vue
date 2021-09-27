@@ -72,8 +72,6 @@ const addFuel = async () => {
       throw error;
     }
 
-    console.log("the splashback of inserting data", data, error, status);
-
     fuels.value.push(data[0]);
   } catch (error) {
     console.error("error while trying to insert a fuel", error);
@@ -86,10 +84,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="store.activeVehicle = ''">Go back</button>
-
-  <h1>Fuel list for {{ props.vehicle.name }}</h1>
-  <tbody>
+  <h1 class="title">Fuel list for {{ props.vehicle.name }} <a href="#" class="button is-link" @click="store.activeVehicle= ''">Go back</a></h1>
+  <tbody class="table is-hoverable is-striped is-narrow is-fullwidth">
     <thead>
       <th>date</th>
       <th>trip 1 distance</th>

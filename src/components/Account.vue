@@ -77,39 +77,46 @@ async function signOut() {
 onMounted(getProfile);
 </script>
 <template>
-  <form class="form-widget" @submit.prevent="updateProfile">
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="text" :value="store.user.email" disabled />
-    </div>
-    <div>
-      <label for="username">Name</label>
-      <input id="username" type="text" v-model="username" />
-    </div>
-    <div>
-      <label for="website">Website</label>
-      <input id="website" type="website" v-model="website" />
-    </div>
+  <div class="container">
+    <form class="form-widget box" @submit.prevent="updateProfile">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          class="input"
+          id="email"
+          type="text"
+          :value="store.user.email"
+          disabled
+        />
+      </div>
+      <div class="field">
+        <label for="username">Name</label>
+        <input class="input" id="username" type="text" v-model="username" />
+      </div>
+      <div class="field">
+        <label for="website">Website</label>
+        <input class="input" id="website" type="website" v-model="website" />
+      </div>
 
-    <div>
-      <input
-        type="submit"
-        class="button block primary"
-        :value="loading ? 'Loading ...' : 'Update'"
-        :disabled="loading"
-      />
-    </div>
+      <div class="field is-grouped">
+        <p class="control">
+          <button type="submit" class="button is-primary" :disabled="loading">
+            {{ loading ? "Loading ..." : "Update" }}
+          </button>
+        </p>
 
-    <div>
-      <button class="button block" @click="signOut" :disabled="loading">
-        Sign Out
-      </button>
-    </div>
-  </form>
+        <p class="control">
+          <button class="button block" @click="signOut" :disabled="loading">
+            Sign Out
+          </button>
+        </p>
+      </div>
+    </form>
 
-  <ManageVehicle
-    v-if="store.activeVehicle"
-    :vehicle="store.vehicles[store.activeVehicle]"
-  />
-  <Vehicles v-else />
+    <ManageVehicle
+      v-if="store.activeVehicle"
+      :vehicle="store.vehicles[store.activeVehicle]"
+    />
+    <Vehicles v-else />
+  </div>
 </template>
