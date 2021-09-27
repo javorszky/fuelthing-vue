@@ -17,8 +17,8 @@ const handleLogin = async () => {
     note.value = "check your email for a login link";
     noteType.value = "is-success";
   } catch (error) {
-    note.value = error.error_description || error.message;
-    noteType.value = "is-danger";
+    alert(error.error_description || error.message);
+    note.value = noteType.value = "is-danger";
   } finally {
     loading.value = false;
   }
@@ -66,6 +66,6 @@ const handleLogin = async () => {
         <button class="button is-primary">Send magic link</button>
       </p>
     </form>
-    <Notification v-if="note" :message="note" :type="noteType" />
+    <Notification :message="note" :type="noteType" />
   </div>
 </template>
