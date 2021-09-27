@@ -14,18 +14,6 @@ supabase.auth.onAuthStateChange((_, session) => {
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
   <Account v-if="store.user" />
-  <Auth v-else @login="listen" />
+  <Auth v-else />
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #5f6468;
-  margin-top: 60px;
-}
-</style>

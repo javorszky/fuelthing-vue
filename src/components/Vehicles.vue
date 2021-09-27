@@ -2,8 +2,10 @@
 import { onMounted, ref } from "vue";
 import { supabase } from "../supabase";
 import { store } from "../store";
+import Notification from "./Notification.vue";
 
 const newVehicle = ref("");
+const ruhRoh = ref("");
 
 const fetchVehicles = async () => {
   try {
@@ -54,6 +56,7 @@ onMounted(() => fetchVehicles());
 
 <template>
   <div class="container">
+    <Notification v-if="ruhRoh" :message="ruhRoh" type="is-danger" />
     <table class="table is-striped is-hoverable">
       <thead>
         <tr>

@@ -1,15 +1,17 @@
 <script setup>
 import { onMounted } from "@vue/runtime-core";
-import { supabase } from "../supabase";
-import { store } from "../store";
 import { ref } from "vue";
 
-const ukGalPerLitre = 4.54609188;
+import Notification from "./Notification.vue";
+
+import { supabase } from "../supabase";
+import { store } from "../store";
 
 const props = defineProps({
   vehicle: Object,
 });
 
+const ukGalPerLitre = 4.54609188;
 const fuels = ref([]);
 const t1dist = ref("");
 const t1mpg = ref("");
@@ -18,6 +20,7 @@ const t2mpg = ref("");
 const fuelName = ref("");
 const fuelPrice = ref("");
 const fuelAmount = ref("");
+const ruhRoh = ref("");
 
 const fetchData = async () => {
   try {
@@ -34,7 +37,7 @@ const fetchData = async () => {
 
     fuels.value = data;
   } catch (error) {
-    console.error("oh noes, error fetching fuels for the vehicle", error);
+    ruhRoh.value = "oh noes, error fetching fuels for the vehicle\n\n" + error;
   }
 };
 
@@ -74,8 +77,12 @@ const addFuel = async () => {
 
     fuels.value.push(data[0]);
   } catch (error) {
-    console.error("error while trying to insert a fuel", error);
+    ruhRoh.value = "error while trying to insert a fuel\n\n" + error.message;
   }
+};
+
+const hide = () => {
+  ruhRoh.value = "";
 };
 
 onMounted(() => {
@@ -85,6 +92,7 @@ onMounted(() => {
 
 <template>
   <h1 class="title">Fuel list for {{ props.vehicle.name }} <a href="#" class="button is-link" @click="store.activeVehicle= ''">Go back</a></h1>
+  <Notification @hide-yo-self="hide" v-if="ruhRoh" :message="ruhRoh" type="is-danger"/>
   <tbody class="table is-hoverable is-striped is-narrow is-fullwidth">
     <thead>
       <th>date</th>
@@ -111,84 +119,78 @@ onMounted(() => {
 
   </tbody>
   <form @submit.prevent="addFuel" className="box">
-                <h2 className="subtitle">Add fuel entry</h2>
-                <div className="columns">
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="trip1Distance">Trip 1 distance</label>
-                            <input className="input" type="number"
-                                step="0.1"
-                                id="trip1Distance"
-                                v-model.number="t1dist"
-                                 />
-                        </div>
-                    </div>
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="trip1MPG">Trip 1 MPG (optional)</label>
-                            <input className="input" type="number"
-                                step="0.1"
-                                id="trip1MPG"
-                                v-model.number="t1mpg"
-                                 />
-                        </div>
-                    </div>
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="trip2Distance">Trip 2 distance</label>
-                            <input className="input" type="number"
-                                step="0.1"
-                                id="trip2Distance"
-                                v-model.number="t2dist"
-                                 />
-                        </div>
-                    </div>
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="trip2MPG">Trip 2 MPG (optional)</label>
-                            <input className="input" type="number"
-                                step="0.1"
-                                id="trip2MPG"
-                                v-model.number="t2mpg"
-                                 />
-                        </div>
-                    </div>
-                </div>
 
-                <div className="columns">
-                    <div className="column is-half">
-                        <div className="field">
-                            <label className="label" for="fuelName">Fuel name</label>
-                            <input className="input" type="text"
-                                id="fuelName"
-                                v-model="fuelName"
-                                 />
-                        </div>
-                    </div>
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="fuelPrice">Fuel Price</label>
-                            <input className="input" type="number"
-                                step="0.01"
-                                id="fuelPrice"
-                                v-model.number="fuelPrice"
-                                 />
-                        </div>
-                    </div>
-                    <div className="column is-quarter">
-                        <div className="field">
-                            <label className="label" for="fuelAmount">Fuel amount</label>
-                            <input className="input" type="number"
-                                step="0.01"
-                                id="fuelAmount"
-                                v-model.number="fuelAmount"
-                                 />
-                        </div>
-                    </div>
-                </div>
+    <h2 className="subtitle">Add fuel entry</h2>
+    <div className="columns">
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="trip1Distance">Trip 1 distance</label>
+                <input className="input" type="number"
+                    step="0.1"
+                    id="trip1Distance"
+                    v-model.number="t1dist"  />
+            </div>
+        </div>
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="trip1MPG">Trip 1 MPG (optional)</label>
+                <input className="input" type="number"
+                    step="0.1"
+                    id="trip1MPG"
+                    v-model.number="t1mpg" />
+            </div>
+        </div>
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="trip2Distance">Trip 2 distance</label>
+                <input className="input" type="number"
+                    step="0.1"
+                    id="trip2Distance"
+                    v-model.number="t2dist" />
+            </div>
+        </div>
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="trip2MPG">Trip 2 MPG (optional)</label>
+                <input className="input" type="number"
+                    step="0.1"
+                    id="trip2MPG"
+                    v-model.number="t2mpg" />
+            </div>
+        </div>
+    </div>
 
-                <div className="field">
-                    <button className="button is-primary" type="submit">Add fuel record</button>
-                </div>
-            </form>
+    <div className="columns">
+        <div className="column is-half">
+            <div className="field">
+                <label className="label" for="fuelName">Fuel name</label>
+                <input className="input" type="text"
+                    id="fuelName"
+                    v-model="fuelName" />
+            </div>
+        </div>
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="fuelPrice">Fuel Price</label>
+                <input className="input" type="number"
+                    step="0.01"
+                    id="fuelPrice"
+                    v-model.number="fuelPrice" />
+            </div>
+        </div>
+        <div className="column is-quarter">
+            <div className="field">
+                <label className="label" for="fuelAmount">Fuel amount</label>
+                <input className="input" type="number"
+                    step="0.01"
+                    id="fuelAmount"
+                    v-model.number="fuelAmount" />
+            </div>
+        </div>
+    </div>
+
+    <div className="field">
+        <button className="button is-primary" type="submit">Add fuel record</button>
+    </div>
+</form>
 </template>
